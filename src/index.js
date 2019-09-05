@@ -26,7 +26,9 @@ const main = () => {
 
 try {
   main();
+  // eslint-disable-next-line no-console
   console.info('App initialized');
 } catch (err) {
+  // eslint-disable-next-line no-console
   console.error('Unable to initialize app. See following error', err);
 }

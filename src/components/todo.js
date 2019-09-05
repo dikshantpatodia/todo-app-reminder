@@ -12,19 +12,26 @@ class Todo extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (!this.title.value || this.title.value[0] === ' ') {
-      alert('Field cannot be blank');
+      // eslint-disable-next-line no-alert
+      alert('Title field cannot be blank');
       return;
     }
 
     const prevList = this.props.todoList;
 
+    let reminder;
+
+    if (this.reminder.value) {
+      const formattingDate = new Date(this.reminder.value).toISOString();
+      reminder = new Date(formattingDate).toString();
+    }
+
     const item = {
       id: Date.now(),
       title: this.title.value,
       description: this.description.value,
-      // reminder: this.reminder.value,
+      reminder: reminder || '',
       isCompleted: false,
-      color: `#${Math.random().toString(16).substr(2, 6)}`,
     };
 
     const updatedList = [...prevList, item];
@@ -39,21 +46,18 @@ class Todo extends React.Component {
   // delete item
   deleteItem = (id) => {
     const updatedList = this.props.todoList.filter((item) => item.id !== id);
-    console.log('updated list: ', updatedList);
     this.props.save(updatedList);
   };
 
   // mark as complete/incomplete
-  toggleMarkAsComplete = (id) => {
+  markAsComplete = (currentTime) => {
     const tempList = this.props.todoList;
 
     tempList.forEach((elem) => {
-      if (elem.id === id) {
+      if (Date.parse(elem.reminder) === currentTime) {
         elem.isCompleted = !elem.isCompleted;
       }
     });
-
-    console.log('updated list: ', tempList);
 
     this.props.save(tempList);
   };
@@ -74,8 +78,6 @@ class Todo extends React.Component {
   render() {
     const { todoList } = this.props;
 
-    console.log('todoList: ', this.props.todoList);
-
     return (
       <React.Fragment>
         <div className='input-container'>
@@ -93,6 +95,11 @@ class Todo extends React.Component {
               placeholder={'description'}
               ref={(desc) => { this.description = desc; }}
             ></textarea>
+            <input
+              type="datetime-local"
+              className="input-datetime"
+              ref={(rem) => { this.reminder = rem; }}
+            />
             <div className='submit'>
               <button type="submit" className='submit-btn'>ADD</button>
             </div>
@@ -104,7 +111,7 @@ class Todo extends React.Component {
           list={todoList}
           deleteItem={this.deleteItem}
           updateItem={this.updateItem}
-          toggleMarkAsComplete={this.toggleMarkAsComplete}
+          markAsComplete={this.markAsComplete}
         />
       </React.Fragment>
     );

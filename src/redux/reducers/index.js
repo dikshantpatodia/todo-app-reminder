@@ -6,7 +6,6 @@ export const initialState = {
 };
 
 export function reducer(state = initialState, action) {
-  console.log('State reducer: ', state);
   switch (action.type) {
     case actionTypes.ADD_TO_LIST: {
       return updateObject(state, {

@@ -1,5 +1,4 @@
 @import 'common.scss';
-@import 'variables.scss';
 
 // Mixins
 @mixin flex($align: null, $justify: null, $direction: null) {
@@ -18,11 +17,12 @@
   width: 100%;
   height: 100vh;
   background-color: #FAFAFA;
-  text-align: center;
+  overflow-y: auto;
   &-header {
     font-size: 40px;
     color: #CCC;
     padding-top: 24px;
+    text-align: center;
   }
 }
 
@@ -58,9 +58,16 @@
   }
 
   &-description {
-    padding-right: 56px;
     resize: none;
     font: unset;
+  }
+
+  &-datetime {
+    padding: 6px 12px;
+    border: 0;
+    border-top: 1px solid #EEE;
+    width: 100%;
+    color: #555;
   }
 }
 
@@ -74,7 +81,7 @@
     border: 0;
     border-radius: 2px;
     background-color: #00BCD4;
-    color: $white-e;
+    color: #EEE;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -87,14 +94,13 @@
     padding: 4px 0;
     max-width: 960px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(140px, auto);
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(160px, auto);
     grid-gap: 12px;
   }
   &-item {
     @extend %cPointer;
     position: relative;
-    padding-top: 32px;
     color: #555;
     letter-spacing: 0.025rem;
     box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
@@ -102,7 +108,7 @@
     background: #FFF;
     &:hover {
       .list-item-delete {
-        display: flex;
+        visibility: visible;
       }
     }
     &:not(:last-child) {
@@ -132,6 +138,7 @@
       height: 32px;
       font: unset;
       font-size: 14px;
+      font-weight: bold;
       &:focus {
         outline: 0;
       }
@@ -149,16 +156,26 @@
     }
 
     &-delete {
-      @include flex(center, center);
-      margin: 4px;
-      display: none;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 28px;
-      height: 28px;
-      color: #AAA;
+      visibility: hidden;
+      width: 100%;
       font-size: 28px;
+      color: #E57373;
+      text-align: center;
+      background-color: #F5F5F5;
+    }
+
+    &__reminder {
+      @include flex(center, center);
+      margin-top: 8px;
+      padding: 8px 12px;
+      min-height: 28px;
+      color: #FFF;
+      font-size: 12px;
+      background-color: #E57373;
+      &-completed {
+        background-color: #81C784;
+        transition: all 240ms ease;
+      }
     }
   }
 }
