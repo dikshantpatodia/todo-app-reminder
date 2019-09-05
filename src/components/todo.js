@@ -24,6 +24,7 @@ class Todo extends React.Component {
       description: this.description.value,
       // reminder: this.reminder.value,
       isCompleted: false,
+      color: `#${Math.random().toString(16).substr(2, 6)}`,
     };
 
     const updatedList = [...prevList, item];

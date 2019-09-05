@@ -22,6 +22,7 @@ class TodoList extends React.Component {
               <div
                 key={item.id}
                 className='list-item'
+                style={{ borderTop: `4px solid ${item.color}AA` }}
               >
                 {/* mark as complete */}
                 <input
