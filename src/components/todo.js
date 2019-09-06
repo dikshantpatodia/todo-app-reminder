@@ -22,6 +22,12 @@ class Todo extends React.Component {
     let reminder;
 
     if (this.reminder.value) {
+      if (Date.parse(this.reminder.value) < Date.parse(new Date())) {
+        // eslint-disable-next-line no-alert
+        alert('The Date/Time has already passed!!');
+
+        return;
+      }
       const formattingDate = new Date(this.reminder.value).toISOString();
       reminder = new Date(formattingDate).toString();
     }
@@ -39,8 +45,14 @@ class Todo extends React.Component {
     // Saving to redux state
     this.props.save(updatedList);
 
+    this.resetValues();
+  };
+
+  // Reset values
+  resetValues = () => {
     this.title.value = '';
     this.description.value = '';
+    this.reminder.value = '';
   };
 
   // delete item
